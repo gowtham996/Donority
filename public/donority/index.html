@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Donority — Donation & Charity Platform</title>
+    <meta name="description" content="Donate to Health, Education, Environment, and Disaster Relief causes. Help rebuild our future." />
+    <meta name="author" content="Donority" />
+    <link rel="canonical" href="/donority/index.html" />
+
+    <meta property="og:title" content="Donority — Donation & Charity Platform" />
+    <meta property="og:description" content="Support trusted causes and see progress in real time." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/donority/images/hero.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind Play CDN config - set soft green brand
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+            colors: {
+              brand: {
+                DEFAULT: '#4CAF50',
+                dark: '#3f9c44',
+                light: '#66BB6A'
+              },
+            },
+            boxShadow: {
+              'brand-soft': '0 8px 30px -12px rgba(76, 175, 80, 0.35)',
+            },
+          },
+        },
+      };
+    </script>
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="bg-white text-gray-900 antialiased">
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <!-- Notice banner for LocalStorage fallback -->
+    <div id="storageBanner" class="hidden">
+      <div class="mx-auto max-w-7xl px-4 py-3 text-sm text-gray-800 bg-yellow-100 border-b border-yellow-200">
+        LocalStorage is unavailable. Using in-memory data for this session.
+      </div>
+    </div>
+
+    <header class="border-b border-gray-200" id="home">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4" aria-label="Primary">
+        <div class="flex items-center gap-6">
+          <a href="#home" class="flex items-center gap-2 font-extrabold text-xl tracking-tight">
+            <span class="inline-block h-8 w-8 rounded-md bg-brand text-white grid place-items-center">D</span>
+            Donority
+          </a>
+          <ul class="hidden md:flex items-center gap-6 text-sm text-gray-600">
+            <li><a href="#home" class="hover:text-gray-900">Home</a></li>
+            <li><a href="#causes" class="hover:text-gray-900">Causes</a></li>
+            <li><a href="#contact" class="hover:text-gray-900">Contact</a></li>
+          </ul>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="btnCreateCause" class="hidden md:inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand">Create Cause</button>
+          <button id="btnNgoSignup" class="md:inline-flex items-center rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-brand shadow-brand-soft">NGO Signup</button>
+          <a href="#causes" class="hidden md:inline-flex items-center rounded-md border border-brand text-brand px-4 py-2 text-sm font-semibold hover:bg-brand/10 focus:outline-none focus:ring-2 focus:ring-brand">Donate</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <!-- Hero -->
+      <section class="relative overflow-hidden">
+        <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 py-12 md:grid-cols-2 md:py-16 lg:py-20 items-center">
+          <div>
+            <h1 class="text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">
+              Together We Will Rebuild Our Future
+            </h1>
+            <p class="mt-4 text-lg text-gray-600">
+              Fuel real change across Health, Education, Environment, and Disaster Relief.
+            </p>
+            <div class="mt-6 flex items-center gap-3">
+              <a href="#causes" class="cta-hero">Donate Now</a>
+              <button id="btnLearnMore" class="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand">Learn more</button>
+            </div>
+            <div class="mt-8 flex items-center gap-6 text-sm text-gray-600">
+              <div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-brand"></span> Transparent</div>
+              <div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-brand"></span> Community-led</div>
+              <div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-brand"></span> Open data</div>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="hero-visual">
+              <img src="./images/hero.jpg" alt="Charity hero: volunteers rebuilding a school — Donority" class="h-full w-full object-cover" loading="eager" />
+            </div>
+            <!-- Overlay Stat -->
+            <div class="absolute -bottom-4 left-4 rounded-xl bg-white/90 backdrop-blur px-4 py-3 shadow-xl border border-gray-200">
+              <div class="text-xs text-gray-600">Total Raised</div>
+              <div id="heroTotalRaised" class="font-bold text-lg tracking-tight">$0</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Categories -->
+      <section class="border-t border-gray-100 bg-gray-50/60">
+        <div class="mx-auto max-w-7xl px-4 py-12">
+          <div class="mb-6 flex items-end justify-between">
+            <h2 class="text-2xl font-bold">Browse by Category</h2>
+            <a href="#causes" class="text-sm text-brand hover:underline">See all causes</a>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="categoryGrid">
+            <!-- Tiles injected by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Mission & Vision -->
+      <section class="">
+        <div class="mx-auto max-w-7xl px-4 py-12">
+          <div class="grid gap-6 md:grid-cols-2">
+            <article class="group rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition">
+              <div class="aspect-[16/9] overflow-hidden rounded-xl bg-gray-100">
+                <img class="h-full w-full object-cover group-hover:scale-105 transition" src="./images/mission.jpg" alt="Our Mission — volunteers distributing relief packages" loading="lazy" />
+              </div>
+              <h3 class="mt-4 text-xl font-semibold">Our Mission</h3>
+              <p class="mt-2 text-gray-600">Connecting generous people with carefully vetted causes to maximize social impact.</p>
+              <button class="mt-4 inline-flex items-center text-brand hover:underline">Learn More</button>
+            </article>
+            <article class="group rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition">
+              <div class="aspect-[16/9] overflow-hidden rounded-xl bg-gray-100">
+                <img class="h-full w-full object-cover group-hover:scale-105 transition" src="./images/vision.jpg" alt="Our Vision — children thriving in a bright classroom" loading="lazy" />
+              </div>
+              <h3 class="mt-4 text-xl font-semibold">Our Vision</h3>
+              <p class="mt-2 text-gray-600">A world where transparency and technology make generosity more effective and joyful.</p>
+              <button class="mt-4 inline-flex items-center text-brand hover:underline">Learn More</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ongoing Projects -->
+      <section id="causes" class="border-t border-gray-100 bg-white">
+        <div class="mx-auto max-w-7xl px-4 py-12">
+          <div class="flex items-center justify-between gap-4 flex-wrap">
+            <h2 class="text-2xl font-bold">Ongoing Projects</h2>
+            <div class="flex items-center gap-2 flex-wrap" id="filterBar" aria-label="Filter causes by category">
+              <!-- Filters injected by JS -->
+            </div>
+          </div>
+
+          <div id="causeList" class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <!-- Cause cards injected by JS -->
+          </div>
+          <div id="emptyState" class="mt-10 hidden text-center text-gray-600">No causes yet. Be the first to create one!</div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="border-t border-gray-100 bg-gray-50/60">
+        <div class="mx-auto max-w-7xl px-4 py-12">
+          <h2 class="text-2xl font-bold">Contact</h2>
+          <p class="mt-2 text-gray-600">Questions or feedback? Email us at <a class="text-brand hover:underline" href="mailto:hello@donority.org">hello@donority.org</a>.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-gray-200 bg-white">
+      <div class="mx-auto max-w-7xl px-4 py-8 text-sm text-gray-600 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>© <span id="year"></span> Donority. All rights reserved.</div>
+        <nav aria-label="Footer">
+          <ul class="flex items-center gap-6">
+            <li><a href="#home" class="hover:text-gray-900">Home</a></li>
+            <li><a href="#causes" class="hover:text-gray-900">Causes</a></li>
+            <li><a href="#contact" class="hover:text-gray-900">Contact</a></li>
+            <li><button id="btnFooterSignup" class="text-brand hover:underline">NGO Signup</button></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Donate Modal -->
+    <div id="modalDonate" class="modal" role="dialog" aria-modal="true" aria-labelledby="donateTitle" hidden>
+      <div class="modal-overlay" data-close></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="donateTitle" class="text-lg font-semibold">Donate to Cause</h3>
+          <button class="modal-close" data-close aria-label="Close donate modal">✕</button>
+        </div>
+        <form id="formDonate" class="space-y-4">
+          <input type="hidden" name="causeId" id="donateCauseId" />
+          <div>
+            <label class="label">Amount (USD)</label>
+            <input required min="1" step="1" type="number" id="donateAmount" class="input" placeholder="e.g., 50" />
+          </div>
+          <div>
+            <label class="label">Your name (optional)</label>
+            <input type="text" id="donorName" class="input" placeholder="e.g., Alex" />
+          </div>
+          <div class="flex items-center gap-2">
+            <input id="donateAnon" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand" />
+            <label for="donateAnon" class="text-sm text-gray-700">Donate anonymously</label>
+          </div>
+          <div class="flex justify-end gap-3 pt-2">
+            <button type="button" class="btn-secondary" data-close>Cancel</button>
+            <button type="submit" class="btn-primary">Confirm Donation</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- NGO Signup Modal -->
+    <div id="modalSignup" class="modal" role="dialog" aria-modal="true" aria-labelledby="signupTitle" hidden>
+      <div class="modal-overlay" data-close></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="signupTitle" class="text-lg font-semibold">NGO Signup (Demo)</h3>
+          <button class="modal-close" data-close aria-label="Close signup modal">✕</button>
+        </div>
+        <form id="formSignup" class="space-y-4">
+          <div>
+            <label class="label">Your name</label>
+            <input required type="text" id="signupName" class="input" placeholder="Jane Doe" />
+          </div>
+          <div>
+            <label class="label">Email</label>
+            <input required type="email" id="signupEmail" class="input" placeholder="jane@example.com" />
+          </div>
+          <div>
+            <label class="label">Password</label>
+            <input required type="password" id="signupPassword" class="input" placeholder="•••••••" />
+          </div>
+          <div>
+            <label class="label">Organization name</label>
+            <input required type="text" id="signupOrg" class="input" placeholder="Helping Hands" />
+          </div>
+          <div class="flex justify-end gap-3 pt-2">
+            <button type="button" class="btn-secondary" data-close>Cancel</button>
+            <button type="submit" class="btn-primary">Create account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Create Cause Modal -->
+    <div id="modalCreateCause" class="modal" role="dialog" aria-modal="true" aria-labelledby="createTitle" hidden>
+      <div class="modal-overlay" data-close></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="createTitle" class="text-lg font-semibold">Create Cause</h3>
+          <button class="modal-close" data-close aria-label="Close create cause modal">✕</button>
+        </div>
+        <form id="formCreateCause" class="space-y-4">
+          <div>
+            <label class="label">Title</label>
+            <input required type="text" id="causeTitle" class="input" placeholder="Help Build a School" />
+          </div>
+          <div>
+            <label class="label">Description</label>
+            <textarea required id="causeDesc" class="input min-h-[96px]" placeholder="Short description..."></textarea>
+          </div>
+          <div>
+            <label class="label">Category</label>
+            <select id="causeCategory" class="input">
+              <option>Health</option>
+              <option>Education</option>
+              <option>Environment</option>
+              <option>Disaster Relief</option>
+            </select>
+          </div>
+          <div>
+            <label class="label">Target Amount (USD)</label>
+            <input required min="1" step="1" type="number" id="causeTarget" class="input" placeholder="50000" />
+          </div>
+          <div>
+            <label class="label">Image URL (optional)</label>
+            <input type="url" id="causeImage" class="input" placeholder="https://..." />
+          </div>
+          <div class="flex justify-end gap-3 pt-2">
+            <button type="button" class="btn-secondary" data-close>Cancel</button>
+            <button type="submit" class="btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
